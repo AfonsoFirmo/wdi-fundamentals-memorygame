@@ -1,6 +1,5 @@
 
 
-
 const myArray = [
 	{
 	rank: 'king',
@@ -24,6 +23,16 @@ const myArray = [
 	}
 	];
 
+function createBoard(){
+	for (var i=0; i<myArray.length; i++) {
+		var cardElement = document.createElement('img');
+		cardElement.setAttribute('src', 'images/back.png');
+		cardElement.setAttribute('data-id', i);
+		cardElement.addEventListener('click',flipCard);
+		document.getElementById('game-board').appendChild(cardElement)
+	}
+}
+
 const cardsInPlay =[];
 
 function checkForMatch() {
@@ -35,12 +44,22 @@ function checkForMatch() {
 	}
 }
 
-function flipCard(cardId) {
+function flipCard() {
+	var cardId = this.getAttribute('data-id');
 	console.log("User flipped a " + myArray[cardId].rank);
 	cardsInPlay.push(myArray[cardId].rank);
 	console.log(myArray[cardId].cardImage);
 	console.log(myArray[cardId].suit);
-	checkForMatch();
+	this.setAttribute('src', myArray[cardId].cardImage);
+	cardsInPlay.push(myArray[cardId].rank);
+	if (cardsInPlay.length == 2) {
+		if (cardsInPlay[0]===cardsInPlay[1]) {
+			alert("Was it a match? Yes, you found a match!");
+		} else {
+  		alert("Was it a match? Nop, try again.");
+		}
+	}
+
 	/*if (cardsInPlay.length === 2) {
 		console.log('you flipped two cards');
 	}*/
@@ -52,5 +71,4 @@ function flipCard(cardId) {
 	// 	}
 }
 
-flipCard(2);
-flipCard(3);
+createBoard();
